@@ -313,9 +313,10 @@ message("Network plot saved!!")
 # Save All Results
 
 # Save DEG results
-write.csv(results,              "results/all_genes_AD.csv")
-write.csv(sig_genes_annotated,  "results/significant_genes_AD.csv")
-write.csv(up_genes,             "results/upregulated_genes_AD.csv")
+top_downregulated <- down_genes[order(down_genes$adj.P.Val), ][1:500, ]
+write.csv(top_downregulated, "results/top_500_downregulated_genes.csv", row.names = FALSE)
+top_significant <- results[order(results$adj.P.Val), ][1:300, ]
+write.csv(top_significant, "results/top_300_significant_genes.csv", row.names = FALSE)
 write.csv(down_genes,           "results/downregulated_genes_AD.csv")
 
 
@@ -341,3 +342,58 @@ message("All results saved!!")
 
 # Save entire workspace for Part 2 Python ML analysis
 save.image("results/alzheimers_workspace.RData")
+
+
+#################################
+# Prepare ML Dataset for Python
+##############################
+
+
+
+# Select top 20 hub genes
+top20_gene_names <- names(hub_genes)[1:20]
+
+# Match expression matrix rows using gene symbols
+probe_to_gene <- mapIds(
+  hgu133plus2.db,
+  keys = rownames(expression_data),
+  column = "SYMBOL",
+  keytype = "PROBEID",
+  multiVals = "first"
+)
+
+# Create expression dataframe
+expression_df <- as.data.frame(expression_data)
+
+# Add gene symbols
+expression_df$GeneSymbol <- probe_to_gene
+
+# Remove NA symbols
+expression_df <- expression_df[!is.na(expression_df$GeneSymbol), ]
+
+# Keep only hub genes
+ml_data <- expression_df[
+  expression_df$GeneSymbol %in% top20_gene_names,
+]
+
+# Remove duplicate genes
+ml_data <- ml_data[!duplicated(ml_data$GeneSymbol), ]
+
+# Set gene names as rownames
+rownames(ml_data) <- ml_data$GeneSymbol
+ml_data$GeneSymbol <- NULL
+
+# Transpose so samples become rows
+ml_data_t <- as.data.frame(t(ml_data))
+
+# Add disease labels
+ml_data_t$Group <- group
+
+# Save ML-ready dataset
+write.csv(
+  ml_data_t,
+  "results/alzheimers_ml_dataset.csv",
+  row.names = TRUE
+)
+
+message("ML dataset exported successfully!")
