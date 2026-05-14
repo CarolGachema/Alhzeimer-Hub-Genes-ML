@@ -1,8 +1,7 @@
 ############################################
 # Alzheimer's Disease Network Analysis
 # Dataset: GSE5281
-# Part 1: Differential Expression + Protein-Protein Interaction Network Analysis
-# Author: Caroline Wambui Gachema
+# Differential Expression + Protein-Protein Interaction Network Analysis
 ############################################
 
 
@@ -24,7 +23,7 @@ library(ggraph)         # For network visualization using ggplot2
 
 
 # Set Working Directory
-setwd("C:/Users/Salome/Documents/MY PROJECTS/Alhzeimer-Hub-Genes-ML")
+setwd("C:/Users/Caroline/Documents/MY PROJECTS/Alhzeimer-Hub-Genes-ML")
 
 
 # Load GEO Dataset
@@ -138,9 +137,11 @@ sig_genes_annotated <- sig_genes[!is.na(sig_genes$GeneSymbol) & sig_genes$GeneSy
 
 message(paste("Annotated significant DEGs:", nrow(sig_genes_annotated)))
 
+
 # View top 10 annotated DEGs
 top10 <- sig_genes_annotated[order(sig_genes_annotated$adj.P.Val), ][1:10, ]
 print(top10[, c("GeneSymbol", "logFC", "adj.P.Val")])
+
 
 # Separate Upregulated and Downregulated Genes
 up_genes   <- sig_genes_annotated[sig_genes_annotated$logFC > 1, ]
@@ -149,11 +150,11 @@ down_genes <- sig_genes_annotated[sig_genes_annotated$logFC < -1, ]
 message(paste("Upregulated in AD:", nrow(up_genes)))
 message(paste("Downregulated in AD:", nrow(down_genes)))
 
+
 # Generate Volcano Plot
 
 # Check the range of logFC values
 summary(results$logFC)
-
 
 # Filter out extreme outliers before plotting
 results_filtered <- results[abs(results$logFC) < 10, ]
@@ -276,7 +277,7 @@ V(sub_network)$logFC <- fc_values[V(sub_network)$name]
 V(sub_network)$logFC[is.na(V(sub_network)$logFC)] <- 0
 
 
-# Generate network visualisation
+# Generate network visualization
 network_plot <- ggraph(sub_network, layout = "fr") +
   geom_edge_link(aes(alpha = 0.3), color = "grey70") +
   geom_node_point(aes(
