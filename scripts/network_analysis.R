@@ -1,8 +1,7 @@
 ############################################
 # Alzheimer's Disease Network Analysis
 # Dataset: GSE5281
-# Part 1: Differential Expression + Protein-Protein Interaction Network Analysis
-# Author: Caroline Wambui Gachema
+# Differential Expression + Protein-Protein Interaction Network Analysis
 ############################################
 
 
