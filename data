@@ -1,0 +1,8 @@
+# Data
+
+The raw data file (GSE5281_series_matrix.txt.gz) is too large to host on GitHub.
+
+Download it directly from NCBI GEO:
+https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE5281
+
+Once downloaded, place the file in this folder before running the analysis script.
