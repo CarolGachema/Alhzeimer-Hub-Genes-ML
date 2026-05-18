@@ -62,7 +62,7 @@ Hub Gene Features → 4 Classifiers → Random Forest Best Model → Disease Pre
 
 | Model | CV Accuracy |
 |-------|------------|
-| **Random Forest** ⭐ | **0.907** |
+| **Random Forest**  | **0.907** |
 | Support Vector Machine | 0.895 |
 | Logistic Regression | 0.889 |
 | Gradient Boosting | 0.863 |
@@ -81,7 +81,7 @@ Hub Gene Features → 4 Classifiers → Random Forest Best Model → Disease Pre
 
 > CDK5 is a well-established driver of aberrant tau phosphorylation — one of the hallmark pathological features of Alzheimer's disease. Its identification as a key hub gene directly validates the biological relevance of the network-driven feature selection approach.
 
----
+
 
 ## Visualisations
 
