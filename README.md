@@ -1,12 +1,12 @@
-#  Mapping the Molecular Landscape of Alzheimer's Disease
-## A Multi-Omics Bioinformatics Analysis: Transcriptomics · Network Biology · Machine Learning
+# Identifying Hub Genes and Building a Machine Learning Classifier for Alzheimer's Disease Using Multi Omic Analysis
+
 
 
 ## Overview
 
-This project employs a three stage multi-omics analytical framework to investigate the molecular landscape of Alzheimer's disease (AD), using publicly available gene expression data from the NCBI Gene Expression Omnibus. By combining differential gene expression analysis, protein-protein interaction network analysis, and machine learning classification, this project moves from identifying which genes are dysregulated in Alzheimer's disease, to mapping how those genes interact, to asking whether their expression patterns can *predict* disease status computationally.
+This project employs a three-stage multi-omics analytical framework to investigate the molecular landscape of Alzheimer's disease (AD), using publicly available gene expression data from NCBI Gene Expression Omnibus. By combining differential gene expression analysis, protein-protein interaction network analysis, and machine learning classification, this project moves from identifying *which* genes are dysregulated in Alzheimer's disease, to mapping *how* those genes interact, to asking whether their expression patterns can *predict* disease status computationally.
 
-Alzheimer's disease affects over 55 million people globally. It's been projected to reach 139 million by 2050. Despite decades of research, no disease-modifying treatment exists. Understanding the molecular mechanisms that drive neurodegeneration is one of the most urgent frontiers in modern biomedical science.
+Alzheimer's disease affects over 55 million people globally — a number projected to reach 139 million by 2050. Despite decades of research, no disease modifying treatment exists. Understanding the molecular mechanisms that drive neurodegeneration is one of the most urgent frontiers in modern biomedical science.
 
 
 ## Dataset
@@ -16,8 +16,7 @@ Alzheimer's disease affects over 55 million people globally. It's been projected
 | **GEO Accession** | [GSE5281](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE5281) |
 | **Platform** | Affymetrix Human Genome U133 Plus 2.0 Array (GPL570) |
 | **Comparison** | Alzheimer's Disease vs Healthy Controls |
-| **Brain Regions** | Multiple regions including Entorhinal Cortex, Hippocampus, and others |
-| **Samples** | 161 total (100 AD, 61 Control) |
+| **Total Samples** | 161 (100 AD, 61 Control) |
 | **Source** | NCBI Gene Expression Omnibus (GEO) |
 
 
@@ -26,58 +25,75 @@ Alzheimer's disease affects over 55 million people globally. It's been projected
 ```
 Raw GEO Data → Expression Matrix → Group Classification (AD/Control)
        ↓
-Stage 1: TRANSCRIPTOMICS
-limma DEG Analysis → FDR Correction → Significant DEGs
+Stage 1: TRANSCRIPTOMICS (R)
+limma DEG Analysis → FDR Correction → Significant DEGs → Annotation
        ↓
-Stage 2: NETWORK ANALYSIS
-STRINGdb PPI Network → igraph Centrality → Hub Gene Identification
+Stage 2: NETWORK ANALYSIS (R)
+STRINGdb PPI Network → igraph Centrality Analysis → Hub Gene Identification
        ↓
-Stage 3: MACHINE LEARNING
-Hub Gene Features → Python Classifier → Disease Prediction Model
+Stage 3: MACHINE LEARNING (Python)
+Hub Gene Features → 4 Classifiers → Random Forest Best Model → Disease Prediction
 ```
-
-
-## Methods
-
-### Stage 1 — Transcriptomics: Differential Gene Expression Analysis
-- **Package:** `limma` (Linear Models for Microarray Analysis)
-- **Moderation:** Empirical Bayes (eBayes)
-- **Multiple Testing Correction:** Benjamini-Hochberg FDR
-- **Significance Thresholds:** adj.P.Val < 0.05 AND |log2FC| > 1
-- **Annotation:** hgu133plus2.db (Affymetrix probe-to-gene mapping)
-- **Visualisation:** ggplot2 volcano plot with ggrepel gene labels
-
-### Stage 2 — Network Analysis: Protein-Protein Interaction Mapping
-- **Database:** STRINGdb (version 11.5, score threshold ≥ 400)
-- **Species:** Homo sapiens (taxon ID: 9606)
-- **Network Analysis:** igraph (degree centrality, betweenness centrality)
-- **Hub Gene Identification:** Top genes by degree centrality
-- **Visualisation:** ggraph network plot (node size = connectivity, node colour = expression direction)
-
-### Stage 3 — Machine Learning: Disease Classification
-- **Language:** Python
-- **Features:** Hub genes identified from network analysis
-- **Task:** Binary classification (AD vs Control)
-- **Framework:** scikit-learn
-- *(In active development)*
 
 
 ## Key Results
 
+### Stage 2 — Network Analysis
+
 | Metric | Value |
 |--------|-------|
-| **Total Samples** | 161 (100 AD, 61 Control) |
-| **Significant DEGs** | See results/significant_genes_AD.csv |
-| **Network Nodes** | See results/network_statistics_AD.csv |
-| **Top Hub Genes** | See results/hub_genes_AD.csv |
+| **Hub Genes Identified** | 20 top hub genes by degree centrality |
+| **Top Hub Gene** | ACTB (Beta-actin) |
+| **Other Key Hubs** | NDUFS7, IDH3G, CDK7, SARS1, MDH2, CDK5 |
 
-### Visualisations
+### Stage 3 — Machine Learning
 
-**Volcano Plot** — Colour-coded differential expression (red = upregulated in AD, blue = downregulated in AD)
- `figures/volcano_plot_AD.png` | `figures/volcano_plot_AD_filtered.png`
+| Metric | Value |
+|--------|-------|
+| **Best Model** | Random Forest |
+| **Cross-Validation Accuracy** | 90.7% |
+| **Test Set Accuracy** | 87.88% |
+| **ROC AUC Score** | 0.9038 |
+| **Training Samples** | 128 |
+| **Testing Samples** | 33 |
+| **Features Used** | 20 hub genes |
 
-**PPI Network Plot** — Top 50 hub genes with interaction edges (node size = degree centrality, node colour = log2FC)
- `figures/network_plot_AD.png`
+#### Model Comparison
+
+| Model | CV Accuracy |
+|-------|------------|
+| **Random Forest** ⭐ | **0.907** |
+| Support Vector Machine | 0.895 |
+| Logistic Regression | 0.889 |
+| Gradient Boosting | 0.863 |
+
+#### Top Hub Genes by Feature Importance
+
+| Rank | Gene | Biological Role |
+|------|------|----------------|
+| 1 | **ACTB** | Beta-actin — cytoskeletal integrity, neuronal structure |
+| 2 | **NDUFS7** | Mitochondrial complex I — energy metabolism |
+| 3 | **IDH3G** | Isocitrate dehydrogenase — TCA cycle |
+| 4 | **CDK7** | Cyclin-dependent kinase — cell cycle regulation |
+| 5 | **SARS1** | Seryl-tRNA synthetase — protein synthesis |
+| 6 | **MDH2** | Malate dehydrogenase — metabolic regulation |
+| 7 | **CDK5** | Neuronal kinase — tau phosphorylation in AD pathology |
+
+> CDK5 is a well-established driver of aberrant tau phosphorylation — one of the hallmark pathological features of Alzheimer's disease. Its identification as a key hub gene directly validates the biological relevance of the network-driven feature selection approach.
+
+---
+
+## Visualisations
+
+| Figure | Description |
+|--------|------------|
+| `figures/volcano_plot_AD_filtered.png` | Colour-coded DEG volcano plot |
+| `figures/network_plot_AD.png` | PPI network — top 50 hub genes |
+| `figures/hub_gene_distributions.png` | Hub gene expression: AD vs Control |
+| `figures/model_comparison.png` | 4-model CV accuracy comparison |
+| `figures/feature_importance.png` | Random Forest hub gene importance |
+| `figures/confusion_matrix.png` | Test set classification results |
+| `figures/roc_curve.png` | ROC curve (AUC = 0.9038) |
 
 
 ## Repository Structure
@@ -86,80 +102,71 @@ Hub Gene Features → Python Classifier → Disease Prediction Model
 Alzheimers-Network-ML-Analysis/
 │
 ├── data/
-│   └── README.md                          # Instructions to download GSE5281
+│   └── README.md                          # Download instructions for GSE5281
 │
 ├── scripts/
-│   ├── alzheimers_network.R               # Full annotated R pipeline (Stages 1 & 2)
-│   └── ml_classifier.py                   # Python ML classifier (Stage 3 — in development)
+│   ├── alzheimers_network.R               # Stage 1 & 2: DEG + PPI network (R)
+│   └── alzheimers_ml.py                   # Stage 3: ML classification (Python)
 │
 ├── results/
-│   ├── all_genes_AD.csv                   # All genes with full DEG statistics
-│   ├── significant_genes_AD.csv           # Filtered significant DEGs
-│   ├── upregulated_genes_AD.csv           # Genes upregulated in AD
-│   ├── downregulated_genes_AD.csv         # Genes downregulated in AD
-│   ├── hub_genes_AD.csv                   # Top hub genes by degree centrality
-│   └── network_statistics_AD.csv          # Full network centrality statistics
+│   ├── significant_genes_AD.csv
+│   ├── upregulated_genes_AD.csv
+│   ├── downregulated_genes_AD.csv
+│   ├── hub_genes_AD.csv
+│   ├── network_statistics_AD.csv
+│   ├── feature_importance.csv
+│   └── model_comparison_summary.csv
 │
 └── figures/
-    ├── volcano_plot_AD.png                # Full volcano plot
-    ├── volcano_plot_AD_filtered.png       # Filtered volcano plot (|logFC| < 10)
-    └── network_plot_AD.png               # PPI network visualisation
+    ├── volcano_plot_AD_filtered.png
+    ├── network_plot_AD.png
+    ├── hub_gene_distributions.png
+    ├── model_comparison.png
+    ├── feature_importance.png
+    ├── confusion_matrix.png
+    └── roc_curve.png
 ```
 
 
-## How to Reproduce This Analysis
+## How to Reproduce
 
-### Prerequisites
-Install required R packages:
-
+### R Packages
 ```r
-install.packages("BiocManager")
-BiocManager::install(c(
-  "GEOquery",
-  "limma",
-  "hgu133plus2.db",
-  "AnnotationDbi",
-  "STRINGdb"
-))
-
-install.packages(c("igraph", "ggplot2", "ggrepel", "ggraph"))
+BiocManager::install(c("GEOquery","limma","hgu133plus2.db","AnnotationDbi","STRINGdb"))
+install.packages(c("igraph","ggplot2","ggrepel","ggraph"))
 ```
 
-Install required Python packages:
+### Python Packages
 ```python
-pip install scikit-learn pandas numpy matplotlib seaborn
+pip install pandas numpy matplotlib seaborn scikit-learn
 ```
 
 ### Steps
 1. Clone this repository
-2. Download GSE5281 from [NCBI GEO](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE5281) and place in `data/`
-3. Open `scripts/alzheimers_network.R` in RStudio
-4. Run section by section — workspace saves automatically after each run!!
-5. Results save to `results/` and figures to `figures/`
+2. Download GSE5281 from [NCBI GEO](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE5281) → place in `data/`
+3. Run `alzheimers_network.R` in RStudio
+4. Export hub gene expression as `results/alzheimers_ml_dataset.csv`
+5. Run `alzheimers_ml.py` in Jupyter Notebook
 
 
-## Biological Context
+## Biological Context and Interpretation
 
-**Why Multiple Brain Regions??**
 Alzheimer's disease does not affect all brain regions equally. Neurodegeneration follows a characteristic spatiotemporal pattern, beginning in the entorhinal cortex and hippocampus before spreading to other regions. Analyzing gene expression across multiple brain regions provides a more complete picture of the molecular heterogeneity of the disease.
-
-**Why Network Analysis??**
 Differentially expressed genes do not act in isolation. Network analysis reveals the topology of molecular interactions, identifying hub genes that occupy critical positions and whose dysregulation may propagate dysfunction throughout entire biological pathways. Hub genes identified through network analysis are strong candidates for therapeutic targeting and biomarker development.
 
-**Why Machine Learning??**
-If the molecular signature of Alzheimer's disease is sufficiently distinct and consistent, it should be possible to train a computational model to recognise it, with implications for early detection, patient stratification, and precision medicine approaches to disease management.
+**ACTB** — Beta-actin dysregulation reflects widespread neuronal structural breakdown characteristic of neurodegeneration!!
+
+**CDK5** — A neuronal kinase with established roles in aberrant tau phosphorylation, one of Alzheimer's defining pathological hallmarks!!
+
+**Mitochondrial genes (NDUFS7, IDH3G, MDH2)** - Consistent with growing evidence of bioenergetic failure as an early and targetable event in Alzheimer's disease pathogenesis!!
 
 
 ## Limitations
 
-- Exploratory analysis — findings require functional validation
-- Microarray technology offers less precise quantification than RNA-sequencing
-- Single dataset analysis — multi-dataset validation would strengthen findings
-- Machine learning component in active development
-- Future work should incorporate pathway enrichment (KEGG, Reactome) and survival analysis
+- Exploratory analysis requiring functional validation
+- Microarray less precise than RNA-sequencing
+- Small test set (n=33)
+- Single dataset — multi-cohort validation would strengthen findings
 
 
-## License
-
-This project is licensed under the **MIT License** — free to use, modify, and build upon with attribution.
 
