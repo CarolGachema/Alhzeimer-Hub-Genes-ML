@@ -4,9 +4,9 @@
 
 ## Overview
 
-This project employs a three-stage multi-omics analytical framework to investigate the molecular landscape of Alzheimer's disease (AD), using publicly available gene expression data from NCBI Gene Expression Omnibus. By combining differential gene expression analysis, protein-protein interaction network analysis, and machine learning classification, this project moves from identifying *which* genes are dysregulated in Alzheimer's disease, to mapping *how* those genes interact, to asking whether their expression patterns can *predict* disease status computationally.
+This project employs a three-stage multi-omics analytical framework to investigate the molecular landscape of Alzheimer's disease (AD), using publicly available gene expression data from NCBI Gene Expression Omnibus. By combining differential gene expression analysis, protein-protein interaction network analysis, and machine learning classification, this project moves from identifying which genes are dysregulated in Alzheimer's disease, to mapping how those genes interact, to asking whether their expression patterns can *predict* disease status computationally.
 
-Alzheimer's disease affects over 55 million people globally — a number projected to reach 139 million by 2050. Despite decades of research, no disease modifying treatment exists. Understanding the molecular mechanisms that drive neurodegeneration is one of the most urgent frontiers in modern biomedical science.
+Alzheimer's disease affects over 55 million people globally, a number projected to reach 139 million by 2050. Despite decades of research, no disease modifying treatment exists. Understanding the molecular mechanisms that drive neurodegeneration is one of the most urgent frontiers in modern biomedical science.
 
 
 ## Dataset
@@ -38,7 +38,7 @@ Hub Gene Features → 4 Classifiers → Random Forest Best Model → Disease Pre
 
 ## Key Results
 
-### Stage 2 — Network Analysis
+### Stage 2: Network Analysis
 
 | Metric | Value |
 |--------|-------|
@@ -46,7 +46,7 @@ Hub Gene Features → 4 Classifiers → Random Forest Best Model → Disease Pre
 | **Top Hub Gene** | ACTB (Beta-actin) |
 | **Other Key Hubs** | NDUFS7, IDH3G, CDK7, SARS1, MDH2, CDK5 |
 
-### Stage 3 — Machine Learning
+### Stage 3: Machine Learning
 
 | Metric | Value |
 |--------|-------|
@@ -79,7 +79,8 @@ Hub Gene Features → 4 Classifiers → Random Forest Best Model → Disease Pre
 | 6 | **MDH2** | Malate dehydrogenase — metabolic regulation |
 | 7 | **CDK5** | Neuronal kinase — tau phosphorylation in AD pathology |
 
-> CDK5 is a well-established driver of aberrant tau phosphorylation — one of the hallmark pathological features of Alzheimer's disease. Its identification as a key hub gene directly validates the biological relevance of the network-driven feature selection approach.
+
+CDK5 is a well-established driver of aberrant tau phosphorylation. It's one of the hallmark pathological features of Alzheimer's disease. Its identification as a key hub gene directly validates the biological relevance of the network-driven feature selection approach.
 
 
 
@@ -87,8 +88,8 @@ Hub Gene Features → 4 Classifiers → Random Forest Best Model → Disease Pre
 
 | Figure | Description |
 |--------|------------|
-| `figures/volcano_plot_AD_filtered.png` | Colour-coded DEG volcano plot |
-| `figures/network_plot_AD.png` | PPI network — top 50 hub genes |
+| `figures/volcano_plot_AD_filtered.png` | Colour coded DEG volcano plot |
+| `figures/network_plot_AD.png` | PPI network - top 50 hub genes |
 | `figures/hub_gene_distributions.png` | Hub gene expression: AD vs Control |
 | `figures/model_comparison.png` | 4-model CV accuracy comparison |
 | `figures/feature_importance.png` | Random Forest hub gene importance |
@@ -154,9 +155,9 @@ pip install pandas numpy matplotlib seaborn scikit-learn
 Alzheimer's disease does not affect all brain regions equally. Neurodegeneration follows a characteristic spatiotemporal pattern, beginning in the entorhinal cortex and hippocampus before spreading to other regions. Analyzing gene expression across multiple brain regions provides a more complete picture of the molecular heterogeneity of the disease.
 Differentially expressed genes do not act in isolation. Network analysis reveals the topology of molecular interactions, identifying hub genes that occupy critical positions and whose dysregulation may propagate dysfunction throughout entire biological pathways. Hub genes identified through network analysis are strong candidates for therapeutic targeting and biomarker development.
 
-**ACTB** — Beta-actin dysregulation reflects widespread neuronal structural breakdown characteristic of neurodegeneration!!
+**ACTB** - Beta-actin dysregulation reflects widespread neuronal structural breakdown characteristic of neurodegeneration!!
 
-**CDK5** — A neuronal kinase with established roles in aberrant tau phosphorylation, one of Alzheimer's defining pathological hallmarks!!
+**CDK5** - A neuronal kinase with established roles in aberrant tau phosphorylation, one of Alzheimer's defining pathological hallmarks!!
 
 **Mitochondrial genes (NDUFS7, IDH3G, MDH2)** - Consistent with growing evidence of bioenergetic failure as an early and targetable event in Alzheimer's disease pathogenesis!!
 
@@ -166,7 +167,7 @@ Differentially expressed genes do not act in isolation. Network analysis reveals
 - Exploratory analysis requiring functional validation
 - Microarray less precise than RNA-sequencing
 - Small test set (n=33)
-- Single dataset — multi-cohort validation would strengthen findings
+- Single dataset, multi-cohort validation would strengthen findings
 
 
 
