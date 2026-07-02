@@ -40,7 +40,7 @@ library(ggraph)         # For network visualization using ggplot2
 
 
 # Set Working Directory
-setwd("C:/Users/Salome/Documents/MY PROJECTS/Alhzeimer-Hub-Genes-ML")
+setwd("C:/Users/Gachema/Documents/MY PROJECTS/Alhzeimer-Hub-Genes-ML")
 
 
 # Load GEO Dataset
