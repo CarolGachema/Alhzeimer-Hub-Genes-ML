@@ -1,24 +1,20 @@
-# Identifying Hub Genes and Building a Machine Learning Classifier for Alzheimer's Disease Using Multi Omic Analysis
-
-
+# Identifying Hub Genes and Building a Machine Learning Classifier for Alzheimer's Disease Using Multi-Omic Analysis
 
 ## Overview
 
-This project employs a three-stage multi-omics analytical framework to investigate the molecular landscape of Alzheimer's disease (AD), using publicly available gene expression data from NCBI Gene Expression Omnibus. By combining differential gene expression analysis, protein-protein interaction network analysis, and machine learning classification, this project moves from identifying which genes are dysregulated in Alzheimer's disease, to mapping how those genes interact, to asking whether their expression patterns can *predict* disease status computationally.
+This project employs a three-stage multi-omics analytical framework to investigate the molecular landscape of Alzheimer's disease (AD), using publicly available gene expression data from NCBI Gene Expression Omnibus. By combining differential gene expression analysis, protein-protein interaction network analysis, and machine learning classification, this project moves from identifying which genes are dysregulated in Alzheimer's disease, to mapping how those genes interact, to asking whether their expression patterns can predict disease status computationally.
 
-Alzheimer's disease affects over 55 million people globally, a number projected to reach 139 million by 2050. Despite decades of research, no disease modifying treatment exists. Understanding the molecular mechanisms that drive neurodegeneration is one of the most urgent frontiers in modern biomedical science.
-
+Alzheimer's disease affects over 55 million people globally, a number projected to reach 139 million by 2050. Despite decades of research, no disease-modifying treatment exists. Understanding the molecular mechanisms that drive neurodegeneration is one of the most urgent frontiers in modern biomedical science.
 
 ## Dataset
 
 | Parameter | Details |
-|-----------|---------|
-| **GEO Accession** | [GSE5281](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE5281) |
-| **Platform** | Affymetrix Human Genome U133 Plus 2.0 Array (GPL570) |
-| **Comparison** | Alzheimer's Disease vs Healthy Controls |
-| **Total Samples** | 161 (100 AD, 61 Control) |
-| **Source** | NCBI Gene Expression Omnibus (GEO) |
-
+|---|---|
+| GEO Accession | GSE5281 |
+| Platform | Affymetrix Human Genome U133 Plus 2.0 Array (GPL570) |
+| Comparison | Alzheimer's Disease vs Healthy Controls |
+| Total Samples | 161 (100 AD, 61 Control) |
+| Source | NCBI Gene Expression Omnibus (GEO) |
 
 ## Analytical Framework
 
@@ -35,59 +31,55 @@ Stage 3: MACHINE LEARNING (Python)
 Hub Gene Features → 4 Classifiers → Random Forest Best Model → Disease Prediction
 ```
 
-
 ## Key Results
 
 ### Stage 2: Network Analysis
 
 | Metric | Value |
-|--------|-------|
-| **Hub Genes Identified** | 20 top hub genes by degree centrality |
-| **Top Hub Gene** | ACTB (Beta-actin) |
-| **Other Key Hubs** | NDUFS7, IDH3G, CDK7, SARS1, MDH2, CDK5 |
+|---|---|
+| Hub Genes Identified | 20 top hub genes by degree centrality |
+| Top Hub Gene | ACTB (Beta-actin) |
+| Other Key Hubs | NDUFS7, IDH3G, CDK7, SARS1, MDH2, CDK5 |
 
 ### Stage 3: Machine Learning
 
 | Metric | Value |
-|--------|-------|
-| **Best Model** | Random Forest |
-| **Cross-Validation Accuracy** | 90.7% |
-| **Test Set Accuracy** | 87.88% |
-| **ROC AUC Score** | 0.9038 |
-| **Training Samples** | 128 |
-| **Testing Samples** | 33 |
-| **Features Used** | 20 hub genes |
+|---|---|
+| Best Model | Random Forest |
+| Cross-Validation Accuracy | 90.7% |
+| Test Set Accuracy | 87.88% |
+| ROC AUC Score | 0.9038 |
+| Training Samples | 128 |
+| Testing Samples | 33 |
+| Features Used | 20 hub genes |
 
-#### Model Comparison
+### Model Comparison
 
 | Model | CV Accuracy |
-|-------|------------|
-| **Random Forest**  | **0.907** |
+|---|---|
+| Random Forest | 0.907 |
 | Support Vector Machine | 0.895 |
 | Logistic Regression | 0.889 |
 | Gradient Boosting | 0.863 |
 
-#### Top Hub Genes by Feature Importance
+### Top Hub Genes by Feature Importance
 
 | Rank | Gene | Biological Role |
-|------|------|----------------|
-| 1 | **ACTB** | Beta-actin — cytoskeletal integrity, neuronal structure |
-| 2 | **NDUFS7** | Mitochondrial complex I — energy metabolism |
-| 3 | **IDH3G** | Isocitrate dehydrogenase — TCA cycle |
-| 4 | **CDK7** | Cyclin-dependent kinase — cell cycle regulation |
-| 5 | **SARS1** | Seryl-tRNA synthetase — protein synthesis |
-| 6 | **MDH2** | Malate dehydrogenase — metabolic regulation |
-| 7 | **CDK5** | Neuronal kinase — tau phosphorylation in AD pathology |
+|---|---|---|
+| 1 | ACTB | Beta-actin — cytoskeletal integrity, neuronal structure |
+| 2 | NDUFS7 | Mitochondrial complex I — energy metabolism |
+| 3 | IDH3G | Isocitrate dehydrogenase — TCA cycle |
+| 4 | CDK7 | Cyclin-dependent kinase — cell cycle regulation |
+| 5 | SARS1 | Seryl-tRNA synthetase — protein synthesis |
+| 6 | MDH2 | Malate dehydrogenase — metabolic regulation |
+| 7 | CDK5 | Neuronal kinase — tau phosphorylation in AD pathology |
 
-
-CDK5 is a well-established driver of aberrant tau phosphorylation. It's one of the hallmark pathological features of Alzheimer's disease. Its identification as a key hub gene directly validates the biological relevance of the network-driven feature selection approach.
-
-
+CDK5 is a well-established driver of aberrant tau phosphorylation, one of the hallmark pathological features of Alzheimer's disease. Its identification as a key hub gene directly validates the biological relevance of the network-driven feature selection approach.
 
 ## Visualisations
 
 | Figure | Description |
-|--------|------------|
+|---|---|
 | `figures/volcano_plot_AD_filtered.png` | Colour coded DEG volcano plot |
 | `figures/network_plot_AD.png` | PPI network - top 50 hub genes |
 | `figures/hub_gene_distributions.png` | Hub gene expression: AD vs Control |
@@ -95,7 +87,6 @@ CDK5 is a well-established driver of aberrant tau phosphorylation. It's one of t
 | `figures/feature_importance.png` | Random Forest hub gene importance |
 | `figures/confusion_matrix.png` | Test set classification results |
 | `figures/roc_curve.png` | ROC curve (AUC = 0.9038) |
-
 
 ## Repository Structure
 
@@ -128,39 +119,37 @@ Alzheimers-Network-ML-Analysis/
     └── roc_curve.png
 ```
 
-
 ## How to Reproduce
 
-### R Packages
+**R Packages**
 ```r
 BiocManager::install(c("GEOquery","limma","hgu133plus2.db","AnnotationDbi","STRINGdb"))
 install.packages(c("igraph","ggplot2","ggrepel","ggraph"))
 ```
 
-### Python Packages
-```python
+**Python Packages**
+```
 pip install pandas numpy matplotlib seaborn scikit-learn
 ```
 
-### Steps
+**Steps**
 1. Clone this repository
-2. Download GSE5281 from [NCBI GEO](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE5281) → place in `data/`
+2. Download GSE5281 from NCBI GEO → place in `data/`
 3. Run `alzheimers_network.R` in RStudio
 4. Export hub gene expression as `results/alzheimers_ml_dataset.csv`
 5. Run `alzheimers_ml.py` in Jupyter Notebook
 
+Step 4 is a deliberate checkpoint, not a gap in automation — it's a manual handoff between the R and Python stages, which lets you inspect the hub gene results before they're fed into the classifier.
 
 ## Biological Context and Interpretation
 
-Alzheimer's disease does not affect all brain regions equally. Neurodegeneration follows a characteristic spatiotemporal pattern, beginning in the entorhinal cortex and hippocampus before spreading to other regions. Analyzing gene expression across multiple brain regions provides a more complete picture of the molecular heterogeneity of the disease.
-Differentially expressed genes do not act in isolation. Network analysis reveals the topology of molecular interactions, identifying hub genes that occupy critical positions and whose dysregulation may propagate dysfunction throughout entire biological pathways. Hub genes identified through network analysis are strong candidates for therapeutic targeting and biomarker development.
+Alzheimer's disease does not affect all brain regions equally. Neurodegeneration follows a characteristic spatiotemporal pattern, beginning in the entorhinal cortex and hippocampus before spreading to other regions. Analyzing gene expression across multiple brain regions provides a more complete picture of the molecular heterogeneity of the disease. Differentially expressed genes do not act in isolation. Network analysis reveals the topology of molecular interactions, identifying hub genes that occupy critical positions and whose dysregulation may propagate dysfunction throughout entire biological pathways. Hub genes identified through network analysis are strong candidates for therapeutic targeting and biomarker development.
 
-**ACTB** - Beta-actin dysregulation reflects widespread neuronal structural breakdown characteristic of neurodegeneration!!
+**ACTB** — Beta-actin dysregulation reflects widespread neuronal structural breakdown characteristic of neurodegeneration.
 
-**CDK5** - A neuronal kinase with established roles in aberrant tau phosphorylation, one of Alzheimer's defining pathological hallmarks!!
+**CDK5** — A neuronal kinase with established roles in aberrant tau phosphorylation, one of Alzheimer's defining pathological hallmarks.
 
-**Mitochondrial genes (NDUFS7, IDH3G, MDH2)** - Consistent with growing evidence of bioenergetic failure as an early and targetable event in Alzheimer's disease pathogenesis!!
-
+**Mitochondrial genes** (NDUFS7, IDH3G, MDH2) — Consistent with growing evidence of bioenergetic failure as an early and targetable event in Alzheimer's disease pathogenesis.
 
 ## Limitations
 
@@ -169,5 +158,14 @@ Differentially expressed genes do not act in isolation. Network analysis reveals
 - Small test set (n=33)
 - Single dataset, multi-cohort validation would strengthen findings
 
+## Status
 
+Stages 1–3 complete: differential expression, network analysis, and ML classification. Immediate next step: validating the hub-gene panel against an independent AD cohort.
 
+## License
+
+MIT — see LICENSE.
+
+## Citation
+
+If you use this pipeline or its results, please cite this repository — see CITATION.cff.
