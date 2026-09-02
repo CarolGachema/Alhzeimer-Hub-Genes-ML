@@ -5,6 +5,6 @@ type: software
 authors:
   - family-names: "Gachema"
     given-names: "CarolIne Wambui."
-date-released: 2026-08-11
+date-released: 2026-05-18
 url: "https://github.com/CarolGachema/Alzheimer-Hub-Genes-ML"
 license: MIT
